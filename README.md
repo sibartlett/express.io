@@ -1,6 +1,6 @@
-# express.io
+# express.oi
 
-realtime-web framework for node.js, inspired by express.io
+realtime-web framework for node.js, based on express.oi
 
 ```
 express.oi = express + socket.io + a little bit of England
@@ -8,7 +8,7 @@ express.oi = express + socket.io + a little bit of England
 
 ## Simple App Setup
 
-Here is the canonical express.io example.
+Here is the canonical express.oi example.
 
 ```javascript
 app = require('express.oi')()
@@ -78,7 +78,7 @@ app.io.route('my-realtime-route', function(req) {
 Sessions work automatically, just set them up like normal using express.
 
 ```js
-app.io.session({secret: 'express.io makes me happy'});
+app.io.session({secret: 'express.oi makes me happy'});
 ```
 
 ## Double Up - Forward Normal Http Routes to Realtime Routes
@@ -97,6 +97,9 @@ app.get('/', function(req, res) {
 It's free! Party with the MIT!
 
 Copyright (c) 2015 Simon Bartlett
+
+Copyright (c) 2012 Tech Pines LLC, Brad Carleton
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
