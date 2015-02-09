@@ -1,6 +1,6 @@
 ![express.oi](http://i.imgur.com/zzZLudd.png)
 
-realtime-web framework for node.js, based on express.oi
+realtime-web framework for node.js, based on express.io
 
 ```
 express.oi = express + socket.io + a little bit of England
