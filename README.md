@@ -1,4 +1,4 @@
-# express.oi
+![express.oi](http://i.imgur.com/zzZLudd.png)
 
 realtime-web framework for node.js, based on express.oi
 
