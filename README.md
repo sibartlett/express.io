@@ -6,10 +6,32 @@ This node.js library seeks to combine [express](http://expressjs.com) and [socke
 
 I've started this project recently - so I may make breaking changes between releases, please check the README for each release for the latest documentation.
 
-### Usage
+### Getting started
+
+First install:
+
+```sh
+npm install express.io
+```
+
+Then, simply replace this line of code
 
 ```js
+require('express')
+```
 
+with this line of code
+
+```js
+require('express.oi')
+```
+Your app should run just the same as before! express.oi is designed to be a superset of express and socket.io.
+
+### Usage
+
+##### Setting up the app
+
+```js
 var express = require('express.oi');
 
 var app = express();
@@ -18,10 +40,48 @@ var app = express();
 app.io.session({
   secret: 'express.oi makes me happy'
 });
+```
 
+##### express.oi routes
+
+```js
 var messages = [];
 
-// Regular express routes can be forwarded to express.oi routes
+app.io.route('messages', {
+  // socket.io event: messages:list
+  list: function(req, res) {
+    res.json(messages);
+  },
+
+  // socket.io event: messages:add
+  add: function(req, res) {
+    // data is accessible from req.data (just like req.body, req.query)
+    var data = req.data;
+
+    // Or use req.param(key)
+    var message = {
+      text: req.param('text')
+    };
+
+    messages.push(message);
+
+    res.status(200).json(message);
+  },
+
+  // socket.io event: messages:remove
+  remove: function(req, res) {
+    // Or just send a status code
+    res.sendStatus(403);
+  }
+});
+
+```
+
+##### Forwarding express routes
+
+Regular express routes can be forwarded to express.oi routes
+
+```js
 app.route('/messages')
   .get(function(req, res) {
     // Forward GET /messages to messages:list
@@ -35,29 +95,11 @@ app.route('/messages')
     // Forward DELETE /messages to messages:add
     req.io.route('messages:remove');
   });
+```
 
-// express.oi routes
-app.io.route('messages', {
-  list: function(req, res) {
-    res.json(messages);
-  },
-  add: function(req, res) {
-    // data is accessible from req.data (just like req.body, req.query)
-    var data = req.data;
+##### More API Examples
 
-    // Or use req.param(key)
-    var txt = req.param('text');
-
-    res.status(200).json({
-      text: txt
-    });
-  },
-  remove: function(req, res) {
-    // Or just send a status code
-    res.sendStatus(403);
-  }
-});
-
+```js
 // express.oi routes
 app.io.route('examples', {
   example: function(req, res) {
