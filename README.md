@@ -1,108 +1,97 @@
 ![express.oi](http://i.imgur.com/zzZLudd.png)
 
-realtime-web framework for node.js, based on express.io
+This node.js library seeks to combine [express](http://expressjs.com) and [socket.io](socket.io) into one cohesive library. This project started as a fork of [express.io](https://github.com/techpines/express.io).
 
-```
-express.oi = express + socket.io + a little bit of England
-```
+### Attention!
 
-## Simple App Setup
+I've started this project recently - so I may make breaking changes between releases, please check the README for each release for the latest documentation.
 
-Here is the canonical express.oi example.
-
-```javascript
-app = require('express.oi')()
-app.http().io()
-
-//build your realtime-web app
-
-app.listen(7076)
-```
-
-## Upgrade your existing Express apps
-
-First install:
-
-```bash
-npm install express.oi
-```
-
-Then, simply replace this line of code
-
-```javascript
-require('express')
-```
-
-with this line of code
-
-```javascript
-require('express.oi')
-```
-
-Your app should run just the same as before!  Express.oi is designed to be a superset of Express and Socket.io.  An easy to use drop-in replacement that makes it simple to get started with the realtime-web.
-
-## Realtime Routing is Sweet
-
-With express.oi you can do realtime routing like a pro.
+### Usage
 
 ```js
-app.io.route('customers', {
-    create: function(req) {
-        // create your customer
-    },
-    update: function(req) {
-        // update your customer
-    },
-    remove: function(req) {
-        // remove your customer
-    },
+
+var express = require('express.oi');
+
+var app = express();
+
+// Pass in your express-session configuration
+app.io.session({
+  secret: 'express.oi makes me happy'
 });
-```
 
-And then on the client you would emit these events:
+var messages = [];
 
-* `customers:create`
-* `customers:update`
-* `customers:delete`
+// Regular express routes can be forwarded to express.oi routes
+app.route('/messages')
+  .get(function(req, res) {
+    // Forward GET /messages to messages:list
+    req.io.route('messages:list');
+  })
+  .post(function(req, res) {
+    // Forward POST /messages to messages:add
+    req.io.route('messages:add');
+  })
+  .delete(function(req, res) {
+    // Forward DELETE /messages to messages:add
+    req.io.route('messages:remove');
+  });
 
-Or do it the old fashioned way:
+// express.oi routes
+app.io.route('messages', {
+  list: function(req, res) {
+    res.json(messages);
+  },
+  add: function(req, res) {
+    // data is accessible from req.data (just like req.body, req.query)
+    var data = req.data;
 
-```js
-app.io.route('my-realtime-route', function(req) {
-    // respond to the event
+    // Or use req.param(key)
+    var txt = req.param('text');
+
+    res.status(200).json({
+      text: txt
+    });
+  },
+  remove: function(req, res) {
+    // Or just send a status code
+    res.sendStatus(403);
+  }
 });
-```
 
-## Automatic Session Support
+// express.oi routes
+app.io.route('examples', {
+  example: function(req, res) {
 
-Sessions work automatically, just set them up like normal using express.
+    // Respond to current request
+    res.status(200)
+       .json({
+         message: 'This is my response'
+       });
 
-```js
-app.io.session({secret: 'express.oi makes me happy'});
-```
+    // You can check if current request is a websocket
+    if (!req.isSocket) {
+      return;
+    }
 
-## Double Up - Forward Normal Http Routes to Realtime Routes
+    // Emit event to current socket
+    req.socket.emit('message', 'this is a test');
 
-It's easy to forward regular http routes to your realtime routes.
+    // Emit event to all clients except sender
+    req.socket.broadcast.emit('message', 'this is a test');
 
-```js
-app.get('/', function(req, res) {
-    req.io.route('some-cool-realtime-route');
+    // sending to all clients in 'game' room(channel) except sender
+    req.socket.broadcast.to('game').emit('message', 'nice game');
+
+    // sending to individual socketid, socketid is like a room
+    req.socket.broadcast.to(socketId).emit('message', 'for your eyes only');
+
+
+    // sending to all clients, including sender
+    app.io.emit('message', 'this is a test');
+
+    // sending to all clients in 'game' room/channel, including sender
+    app.io.in('game').emit('message', 'cool game');
+  }
 });
+
 ```
-
-
-
-## License
-It's free! Party with the MIT!
-
-Copyright (c) 2015 Simon Bartlett
-
-Copyright (c) 2012 Tech Pines LLC, Brad Carleton
-
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
