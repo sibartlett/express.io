@@ -40,6 +40,10 @@ var app = express();
 app.io.session({
   secret: 'express.oi makes me happy'
 });
+
+app.http().io();
+
+app.listen(3000);
 ```
 
 ##### express.oi routes
