@@ -11,7 +11,7 @@ I've started this project recently - so I may make breaking changes between rele
 First install:
 
 ```sh
-npm install express.io
+npm install express.oi
 ```
 
 Then, simply replace this line of code
