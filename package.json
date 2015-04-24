@@ -1,6 +1,6 @@
 {
   "name": "express.oi",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Realtime-web library, based on express and socket.io",
   "keywords": [
     "realtime",
@@ -10,7 +10,8 @@
     "express.io",
     "express",
     "socket.io",
-    "badass"
+    "badass",
+    "lets-chat"
   ],
   "homepage": "https://github.com/sibartlett/express.oi",
   "author": "Simon Bartlett <simon@sibartlett.com>",
