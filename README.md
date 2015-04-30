@@ -36,12 +36,12 @@ var express = require('express.oi');
 
 var app = express();
 
+app.http().io();
+
 // Pass in your express-session configuration
 app.io.session({
   secret: 'express.oi makes me happy'
 });
-
-app.http().io();
 
 app.listen(3000);
 ```
