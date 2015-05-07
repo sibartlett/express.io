@@ -115,22 +115,21 @@ app.io.route('examples', {
        });
 
     // You can check if current request is a websocket
-    if (!req.isSocket) {
-      return;
+    if (req.isSocket) {
+
+      // Emit event to current socket
+      req.socket.emit('message', 'this is a test');
+
+      // Emit event to all clients except sender
+      req.socket.broadcast.emit('message', 'this is a test');
+
+      // sending to all clients in 'game' room(channel) except sender
+      req.socket.broadcast.to('game').emit('message', 'nice game');
+
+      // sending to individual socketid, socketid is like a room
+      req.socket.broadcast.to(socketId).emit('message', 'for your eyes only');
+
     }
-
-    // Emit event to current socket
-    req.socket.emit('message', 'this is a test');
-
-    // Emit event to all clients except sender
-    req.socket.broadcast.emit('message', 'this is a test');
-
-    // sending to all clients in 'game' room(channel) except sender
-    req.socket.broadcast.to('game').emit('message', 'nice game');
-
-    // sending to individual socketid, socketid is like a room
-    req.socket.broadcast.to(socketId).emit('message', 'for your eyes only');
-
 
     // sending to all clients, including sender
     app.io.emit('message', 'this is a test');
