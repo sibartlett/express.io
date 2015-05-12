@@ -39,8 +39,11 @@ var app = express();
 app.http().io();
 
 // Pass in your express-session configuration
+// Documentation here: https://github.com/expressjs/session#sessionoptions
 app.io.session({
-  secret: 'express.oi makes me happy'
+  secret: 'express.oi makes me happy',
+  resave: false,
+  saveUninitialized: true
 });
 
 app.listen(3000);
