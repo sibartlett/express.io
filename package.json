@@ -1,6 +1,6 @@
 {
   "name": "express.oi",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Realtime-web library, based on express and socket.io",
   "keywords": [
     "realtime",
@@ -18,11 +18,11 @@
   "repository": "git://github.com/sibartlett/express.oi",
   "license": "MIT",
   "dependencies": {
-    "async": "^0.9.0",
-    "cookie-parser": "~1.3.4",
+    "async": "^1.0.0",
+    "cookie-parser": "^1.3.5",
     "express": "^4.12.3",
-    "express-session": "~1.10.4",
-    "lodash": "^3.6.0",
+    "express-session": "~1.11.2",
+    "lodash": "^3.9.1",
     "socket.io": "^1.3.5"
   },
   "main": "lib/index.js"
