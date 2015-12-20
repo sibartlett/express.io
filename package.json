@@ -1,6 +1,6 @@
 {
   "name": "express.oi",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Realtime-web library, based on express and socket.io",
   "keywords": [
     "realtime",
