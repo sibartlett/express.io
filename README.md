@@ -1,17 +1,11 @@
-![express.oi](http://i.imgur.com/zzZLudd.png)
-
-This node.js library seeks to combine [express](http://expressjs.com) and [socket.io](socket.io) into one cohesive library. This project started as a fork of [express.io](https://github.com/techpines/express.io).
-
-### Attention!
-
-I've started this project recently - so I may make breaking changes between releases, please check the README for each release for the latest documentation.
+This node.js library seeks to combine [express](http://expressjs.com) and [socket.io](http://socket.io) into one cohesive library. This project started as a fork of [express.oi](https://github.com/sibartlett/express.oi). This README is a fork too.
 
 ### Getting started
 
 First install:
 
 ```sh
-npm install express.oi
+npm install express-oi
 ```
 
 Then, simply replace this line of code
@@ -23,16 +17,16 @@ require('express')
 with this line of code
 
 ```js
-require('express.oi')
+require('express-oi')
 ```
-Your app should run just the same as before! express.oi is designed to be a superset of express and socket.io.
+Your app should run just the same as before! express-oi is designed to be a superset of express and socket.io.
 
 ### Usage
 
 ##### Setting up the app
 
 ```js
-var express = require('express.oi');
+var express = require('express-oi');
 
 var app = express();
 
@@ -40,8 +34,10 @@ app.http().io();
 
 // Pass in your express-session configuration
 // Documentation here: https://github.com/expressjs/session#sessionoptions
+// Just config options, dep. "express-session" are included in express-oi
+// app.io.session() includes session both to app and app.io
 app.io.session({
-  secret: 'express.oi makes me happy',
+  secret: 'express-oi makes me happy',
   resave: false,
   saveUninitialized: true
 });
@@ -49,7 +45,7 @@ app.io.session({
 app.listen(3000);
 ```
 
-##### express.oi routes
+##### express-oi routes
 
 ```js
 var messages = [];
@@ -86,7 +82,7 @@ app.io.route('messages', {
 
 ##### Forwarding express routes
 
-Regular express routes can be forwarded to express.oi routes
+Regular express routes can be forwarded to express-oi routes
 
 ```js
 app.route('/messages')
@@ -99,7 +95,7 @@ app.route('/messages')
     req.io.route('messages:add');
   })
   .delete(function(req, res) {
-    // Forward DELETE /messages to messages:add
+    // Forward DELETE /messages to messages:remove
     req.io.route('messages:remove');
   });
 ```
@@ -107,7 +103,7 @@ app.route('/messages')
 ##### More API Examples
 
 ```js
-// express.oi routes
+// express-oi routes
 app.io.route('examples', {
   example: function(req, res) {
 
