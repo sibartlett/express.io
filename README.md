@@ -4,6 +4,8 @@ This node.js library seeks to combine [express](http://expressjs.com) and [socke
 
 ### Attention!
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sibartlett/express.oi.svg)](https://greenkeeper.io/)
+
 I've started this project recently - so I may make breaking changes between releases, please check the README for each release for the latest documentation.
 
 ### Getting started
